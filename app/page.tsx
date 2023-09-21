@@ -4,14 +4,15 @@ import { ThemeSupa } from "@supabase/auth-ui-shared";
 import { getURL } from "@/utils/helpers";
 import dynamic from "next/dynamic";
 import CenteredSpinner from "@/components/ui/centered-spinner";
-import { Auth } from "@supabase/auth-ui-react";
-import { supabase } from "@/utils/supabase-client";
 import { Separator } from "@/components/ui/separator";
 import Navbar from "@/components/ui/navbar";
 import { Label } from "@/components/ui/label";
 import clsx from "clsx";
 import { Check } from "lucide-react";
-
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { cookies } from "next/headers";
+import { useSupabase } from "@/hooks/use-supabase";
+import { getSession } from "./supabase-server";
 function Generate() {
   // const [panelType, setPanelType] = useState("compact");
   // const radio = [
@@ -28,6 +29,7 @@ function Generate() {
   //     value: "custom",
   //   },
   // ];
+
   return (
     <>
       {" "}

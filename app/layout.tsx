@@ -1,5 +1,5 @@
-// "use client";
-// import { MyUserContextProvider } from "@/hooks/use-user";
+import { MyUserContextProvider } from "@/hooks/use-user";
+import SupabaseProvider from "@/hooks/use-supabase";
 import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
@@ -13,9 +13,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      {/* <MyUserContextProvider> */}
-      <body className={inter.className}>{children}</body>
-      {/* </MyUserContextProvider> */}
+      <SupabaseProvider>
+        <MyUserContextProvider>
+          <body className={inter.className}>{children}</body>
+        </MyUserContextProvider>
+      </SupabaseProvider>
     </html>
   );
 }
