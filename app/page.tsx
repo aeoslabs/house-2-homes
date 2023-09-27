@@ -1,4 +1,4 @@
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import { ThemeSupa } from "@supabase/auth-ui-shared";
 import { getURL } from "@/utils/helpers";
@@ -12,8 +12,11 @@ import { Check } from "lucide-react";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
 import { useSupabase } from "@/hooks/use-supabase";
-import { getSession } from "./supabase-server";
-function Generate() {
+import { getImages, getSession } from "./supabase-server";
+import { RadioGroup } from "@radix-ui/react-dropdown-menu";
+import { RadioGroupItem } from "@radix-ui/react-radio-group";
+import { ImageUpload } from "@/components/client";
+export default async function Generate() {
   // const [panelType, setPanelType] = useState("compact");
   // const radio = [
   //   {
@@ -30,10 +33,17 @@ function Generate() {
   //   },
   // ];
 
+  const session = await getSession();
+
+  if (!session) {
+    return redirect("/signin");
+  }
+  const images = await getImages();
   return (
     <>
       {" "}
       <Navbar />
+      <ImageUpload images={images} />
       {/* <section className="relative">
         <div className="flex flex-row w-full h-adjusted">
           <div className="p-4 max-w-xs overflow-y-auto max-h-screen">
@@ -41,8 +51,8 @@ function Generate() {
               <p>panelType</p>
             </div>
             <div className="flex flex-col flex-1 max-h-full">
-              {/* <Images /> */}
-      {/* <RadioGroup
+              <ImageUpload />
+              <RadioGroup
                 value={panelType}
                 onValueChange={setPanelType}
                 className="grid grid-cols-3"
@@ -91,60 +101,8 @@ function Generate() {
             recommend you switch to Desktop to have the best possible
             experience.
           </p>
-        </div> 
+        </div>
       </section> */}
     </>
   );
 }
-export default Generate;
-
-// const Images = () => {
-//   // const { userDetails, setUserDetails } = useUser();
-//   const [loading, setLoading] = useState(false);
-
-//   const handleSelectImage = (image) => {
-//     setLoading(true);
-//     const data = new FormData();
-//     data.append("file", image);
-//     data.append("upload_preset", "ml_default");
-//     data.append("cloud_name", "cloudimageapi");
-//     fetch("https://api.cloudinary.com/v1_1/cloudimageapi/image/upload", {
-//       method: "post",
-//       body: data,
-//     })
-//       .then((resp) => resp.json())
-//       .then((data) => {
-//         console.log(data);
-//         setUserDetails({
-//           ...userDetails,
-//           images: [...userDetails?.images, data.url],
-//         });
-//       })
-//       .catch((err) => console.log(err));
-//     setLoading(false);
-//   };
-//   const fileUploadInput = useRef(null);
-//   return (
-//     <div className="p-2 gap-2 min-h-60 h-60 max-h-60 grid grid-cols-4 grid-rows-2 w-full  rounded">
-//       {userDetails?.images?.map((img) => (
-//         <img
-//           className="flex justify-center object-cover items-center h-full rounded border border-gray-500 border-dashed"
-//           src={img}
-//         />
-//       ))}
-//       <input
-//         type="file"
-//         accept="image/*"
-//         onChange={(e) => handleSelectImage(e.target.files[0])}
-//         className="hidden"
-//         ref={fileUploadInput}
-//       />
-//       <div
-//         onClick={() => fileUploadInput.current.click()}
-//         className="flex justify-center items-center rounded border border-white border-dashed"
-//       >
-//         {loading ? "loading..." : "Add Image"}
-//       </div>
-//     </div>
-//   );
-// };

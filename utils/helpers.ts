@@ -16,41 +16,21 @@ export const toDateTime = (secs: number) => {
     return t;
 };
 
-export const extractListAndConvertToCSV = (input: string): string[] => {
-    const regex = /(?:"([^"]+)"|([^,\n]+))/g;
+export const fileToBase64 = (file: any) => {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => {
+            // The result includes the content type of the file e.g. "data:image/png;base64,...."
+            // If you only want the Base64 string, you can split the result as follows:
 
-    const titles: string[] = input
-        .split(/\n/)
-        .flatMap((line: string) => {
-            const listMatches = line.match(/(\d+\.\s*(?:"[^"]+"|[^\s,]+))/g);
-            if (listMatches) {
-                return listMatches.map((entry) => {
-                    const titleMatch = entry.match(/\d+\.\s*(?:"(.+?)"|(.+))/);
-                    if (titleMatch && (titleMatch[1] || titleMatch[2])) {
-                        return titleMatch[1] || titleMatch[2];
-                    } else {
-                        return '';
-                    }
-                });
-            } else {
-                const lineMatches: string[] = [];
-                let match;
-                while ((match = regex.exec(line)) !== null) {
-                    lineMatches.push(match[1] || match[2]);
-                }
-                return lineMatches;
-            }
-        })
-        .filter((title: string | any[]) => title.length > 0);
-
-    return titles;
-};
-
-export function toTitleCase(str: string) {
-    return str.replace(/\w\S*/g, function (txt) {
-        return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+            resolve(reader.result);
+        };
+        reader.onerror = (err) => {
+            reject(err);
+        };
     });
-}
+};
 
 export const debounce = (
     func: (...args: any[]) => void,

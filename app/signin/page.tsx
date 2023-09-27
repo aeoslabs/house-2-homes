@@ -1,4 +1,4 @@
-import SignInComponent from "@/components/signin/signInComponent";
+import { SignInComponent } from "@/components/client";
 import { getSession } from "../supabase-server";
 import { redirect } from "next/navigation";
 

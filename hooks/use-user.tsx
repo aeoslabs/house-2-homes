@@ -25,13 +25,13 @@ const MyUserContextProvider = (props: Props) => {
   const [isLoading, setIsLoading] = useState(false);
   const [additonalUserDetails, setAdditonalUserDetails] = useState(null);
   const getUserDetails = () => supabase.from("users").select("*").single();
-
   const updateUserDetails = () => {
     getUserDetails().then(({ data, error }) => {
       if (!error && data) {
         setAdditonalUserDetails({
           ...data,
         });
+        setIsLoading(false);
       } else {
         setIsLoading(false);
       }
