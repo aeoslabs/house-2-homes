@@ -94,11 +94,17 @@ const Navbar = () => {
         <div className="flex justify-between align-center flex-row py-2 px-4 relative">
           <div className="flex flex-1 items-center space-x-4">
             <Link href="/" aria-label="Logo">
-              <img src="/logo.png" alt="AlphaCTR" width={128} />
+              {/* <img src="/logo.png" alt="AlphaCTR" width={128} /> */}
+              <p className="font-bold">HouseKraft</p>
             </Link>
             {user && (
               <Link href="/" aria-label="Dashboard Button">
-                <Button variant="ghost">Dashboard</Button>
+                <Button variant="link">Dashboard</Button>
+              </Link>
+            )}
+            {user && (
+              <Link href="/" aria-label="Account">
+                <Button variant="link">Account</Button>
               </Link>
             )}
           </div>

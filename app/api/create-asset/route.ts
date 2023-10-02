@@ -1,9 +1,10 @@
 import logger from '@/logger';
-import { getPublicUrlFromSupabase, supabaseAdmin, uploadImage } from '@/app/supabase-admin-client';
+import { supabaseAdmin, supabaseStorage, } from '@/app/supabase-admin-client';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { NextResponse } from 'next/server';
 import { headers } from 'next/headers';
 import { extractUserDetailsFromHeaders } from '@/utils/server-helpers';
+import { v4 } from 'uuid';
 
 
 type Data = {
@@ -51,14 +52,31 @@ export async function POST(req: Request) {
         }
 
 
-        const assetPath = await uploadImage(userId, blob, mimeType)
-        const publicUrl = await getPublicUrlFromSupabase(assetPath);
+        //const assetPath = await uploadImage(userId, blob, mimeType)
+        const assetPath = `${userId}/assets/${v4()}`;
+        const { error: uploadError } = await supabaseStorage.upload(assetPath, blob, {
+            contentType: mimeType,
+            cacheControl: '3600',
+        });
+        if (uploadError) {
+            throw new Error(uploadError.message);
+        }
+
+        const { data: signedData, error: signError } =
+            await supabaseStorage.createSignedUrl(
+                assetPath,
+                60 * 60 * 24 * 365 // 1 year
+            );
+
+        if (signError) {
+            throw new Error(signError.message);
+        }
 
         const { data: assetData, error: assetError } = await supabaseAdmin
             .from('assets')
             .insert({
                 user_id: userId,
-                url: publicUrl
+                url: signedData.signedUrl
             }).select().single()
 
         if (assetError || !assetData) {
