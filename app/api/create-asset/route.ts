@@ -3,6 +3,7 @@ import { getPublicUrlFromSupabase, supabaseAdmin, uploadImage } from '@/app/supa
 import { NextApiRequest, NextApiResponse } from 'next';
 import { NextResponse } from 'next/server';
 import { headers } from 'next/headers';
+import { extractUserDetailsFromHeaders } from '@/utils/server-helpers';
 
 
 type Data = {
@@ -29,26 +30,20 @@ function base64ToBlob(base64, mimeType) {
 }
 
 export async function POST(req: Request) {
-    const headersList = headers()
 
     const { image: base64String } = await req.json()
 
     const mimeType = base64String.split(",")[0].split(":")[1].split(";")[0];
-    console.log(mimeType)
     const base64Data = base64String.split(",")[1];
-    console.log(base64Data)
+
 
     const blob = base64ToBlob(base64Data, mimeType);
-    console.log(blob)
+
     try {
         if (!req.headers) {
             throw new Error("Headers are not defined.");
         }
-
-
-        const userId = headersList.get('x-uid') as string;
-        const userEmail = headersList.get('x-email') as string;
-
+        const { userId, userEmail } = extractUserDetailsFromHeaders();
 
         // Ensure we have the user details from middleware headers
         if (!userId || !userEmail) {
@@ -57,13 +52,13 @@ export async function POST(req: Request) {
 
 
         const assetPath = await uploadImage(userId, blob, mimeType)
-        const signedUrl = await getPublicUrlFromSupabase(assetPath);
-        console.log(signedUrl)
+        const publicUrl = await getPublicUrlFromSupabase(assetPath);
+
         const { data: assetData, error: assetError } = await supabaseAdmin
             .from('assets')
             .insert({
                 user_id: userId,
-                url: signedUrl
+                url: publicUrl
             }).select().single()
 
         if (assetError || !assetData) {

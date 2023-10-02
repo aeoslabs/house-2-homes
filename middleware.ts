@@ -4,9 +4,8 @@ import type { NextRequest } from 'next/server';
 import type { Database } from "@/types/supabase";
 
 export async function middleware(req: NextRequest) {
-
     // Error, Signin, Webhook routes
-    if (['/api/error', '/signin'].includes(req.nextUrl.pathname) || req.nextUrl.pathname.startsWith('/api/webhooks')) {
+    if (['/api/error', '/signin', '/webhook'].includes(req.nextUrl.pathname)) {
         return NextResponse.next();
     }
 
@@ -32,7 +31,6 @@ export async function middleware(req: NextRequest) {
             console.error(error);
             return NextResponse.rewrite(new URL('/api/error', req.url));
         }
-
         session = data?.session;
 
     } catch (err) {
@@ -40,8 +38,8 @@ export async function middleware(req: NextRequest) {
         return NextResponse.rewrite(new URL('/api/error', req.url));
     }
 
-    const id = session?.user?.id || '';
-    const email = session?.user?.email || '';
+    const id = session?.user?.id;
+    const email = session?.user?.email;
 
     requestHeaders.set('x-uid', id);
     requestHeaders.set('x-email', email);

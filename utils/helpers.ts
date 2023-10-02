@@ -72,3 +72,8 @@ export const getImageMeta = (url: string) => {
         img.src = url;
     });
 };
+
+
+export function classNames(...classes) {
+    return classes.filter(Boolean).join(" ");
+}

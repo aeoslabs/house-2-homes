@@ -1,6 +1,5 @@
 "use client";
 import Link from "next/link";
-import { cookies } from "next/headers";
 import { useRouter } from "next/navigation";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -14,9 +13,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Separator } from "@/components/ui/separator";
 
-import { ExternalLinkIcon, PencilIcon } from "lucide-react";
 import CreditCount from "./credit-count";
-import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useSupabase } from "@/hooks/use-supabase";
 import { useUser } from "@/hooks/use-user";
 import { useEffect } from "react";
@@ -36,14 +33,6 @@ const Navbar = () => {
   function AuthedNavBar() {
     return (
       <ul className="flex flex-1 justify-end items-center space-x-6">
-        <li className="hidden md:block">
-          <Link href="/projects/new" aria-label="Create">
-            <Button variant="ghost" className="flex space-x-1" size="sm">
-              <PencilIcon size={16} /> <span>Create</span>
-            </Button>
-          </Link>
-        </li>
-
         <li className="items-center space-x-1">
           <CreditCount count={3} />
         </li>
@@ -68,30 +57,9 @@ const Navbar = () => {
                 </DropdownMenuItem>
               </Link>
               <Link href="/account">
-                <DropdownMenuItem>Profile</DropdownMenuItem>
+                <DropdownMenuItem>Account</DropdownMenuItem>
               </Link>
-              <DropdownMenuSeparator />
-              <Link
-                href="https://woolen-digestion-6a4.notion.site/CTR-Hero-FAQs-3e3120843e284f06bb2d1f9f01f4e64d"
-                target="_blank"
-              >
-                <DropdownMenuItem>
-                  FAQs
-                  <ExternalLinkIcon size={12} className="ml-2" />
-                </DropdownMenuItem>
-              </Link>
-              <Link href="https://alphactr.com/terms" target="_blank">
-                <DropdownMenuItem>
-                  T&C
-                  <ExternalLinkIcon size={12} className="ml-2" />
-                </DropdownMenuItem>
-              </Link>
-              <Link href="https://alphactr.com/privacy-policy" target="_blank">
-                <DropdownMenuItem>
-                  Privacy Policy
-                  <ExternalLinkIcon size={12} className="ml-2" />
-                </DropdownMenuItem>
-              </Link>
+
               <DropdownMenuSeparator />
               <DropdownMenuItem
                 onClick={async () => {

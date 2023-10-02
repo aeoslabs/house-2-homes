@@ -1,3 +1,4 @@
+import logger from "@/logger";
 import { createClient } from "@supabase/supabase-js";
 // import type { Database } from "types_db";
 import { v4 } from "uuid";
@@ -32,4 +33,23 @@ async function getPublicUrlFromSupabase(assetPath: string) {
   }
   return data.publicUrl;
 }
-export { uploadImage, getPublicUrlFromSupabase };
+
+async function updateGenerationStatus(
+  id: string,
+  status: string,
+  url?: string
+) {
+  const statusUpdate = { status };
+  const urlUpdate = { url };
+
+  const response = await supabaseAdmin
+    .from("generations")
+    .update(url ? urlUpdate : statusUpdate)
+    .eq("id", id)
+    .select("*")
+    .single();
+
+  return response;
+}
+
+export { uploadImage, getPublicUrlFromSupabase, updateGenerationStatus };

@@ -38,7 +38,10 @@ export async function getUserDetails() {
 export const getImages = async () => {
   const supabase = createServerSupabaseClient();
 
-  const { data, error } = await supabase.from("assets").select("*");
+  const { data, error } = await supabase
+    .from("assets")
+    .select("*")
+    .order("created_at", { ascending: false });
 
   if (error) {
     throw error;

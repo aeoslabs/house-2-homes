@@ -7,6 +7,10 @@ import { fileToBase64 } from "@/utils/helpers";
 import { useRouter } from "next/navigation";
 import { type } from "os";
 import * as React from "react";
+import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
+import { Check, CheckCheckIcon } from "lucide-react";
+import clsx from "clsx";
+import { useFormSelection } from "@/hooks/use-form-selection";
 
 type Image = {
   id: string;
@@ -20,10 +24,9 @@ type Props = {
 
 const ImageUpload = ({ images }: Props) => {
   const [imageList, setImageList] = React.useState<Image[]>(images || []);
-  const router = useRouter();
-  const { user, additonalUserDetails } = useUser();
-
   const [loading, setLoading] = React.useState(false);
+  const { selection, setSelection } = useFormSelection();
+  const { selectedBaseImage } = selection;
 
   const handleSelectImage = async (image: any) => {
     try {
@@ -34,6 +37,7 @@ const ImageUpload = ({ images }: Props) => {
         throw new Error(res.statusText);
       } else {
         setImageList((prev) => [...prev, data]);
+        setSelection({ ...selection, selectedBaseImage: data.id });
       }
     } catch (error) {
       toast({
@@ -48,15 +52,13 @@ const ImageUpload = ({ images }: Props) => {
   const fileUploadInput = React.useRef(null);
 
   return (
-    <div className="p-2 gap-1 min-h-60 h-60 max-h-60 grid grid-cols-3 grid-rows-2 w-[20vw]">
-      {imageList?.map(({ url }) => (
-        <img
-          key={url}
-          className="flex justify-center object-cover items-center w-full h-full rounded-lg border border-gray-200 hover:border-blue-400 transition-all"
-          src={url}
-          alt="uploaded-image"
-        />
-      ))}
+    <RadioGroup
+      value={selection.selectedBaseImage}
+      onValueChange={(value) =>
+        setSelection({ ...selection, selectedBaseImage: `${value}` })
+      }
+      className="p-2 gap-1 grid grid-cols-3 w-[25vw] h-[13.5rem] overflow-auto"
+    >
       <input
         type="file"
         accept="image/*"
@@ -84,7 +86,37 @@ const ImageUpload = ({ images }: Props) => {
           <p className="text-gray-400 text-center text-2xl">+</p>
         )}
       </div>
-    </div>
+      {imageList?.map(({ url, id }) => (
+        <div
+          key={id}
+          className={clsx(
+            "flex items-center relative border-2 border-transparent  hover:scale-105 transition-all transform",
+            url == selectedBaseImage && "border-gray-950"
+          )}
+        >
+          <RadioGroupItem
+            value={url}
+            id={id}
+            className="absolute w-full h-full opacity-0 cursor-pointer"
+          />
+
+          <img
+            src={url}
+            alt={id}
+            className={clsx(
+              "flex justify-center object-cover items-center w-full h-24 rounded-lg border-2 border-gray-200 hover:border-blue-400 transition-all",
+              url == selectedBaseImage && "border-red-950 shadow-sm"
+            )}
+          />
+
+          {url === selectedBaseImage && (
+            <div className="absolute top-0 right-0 p-2 ">
+              <CheckCheckIcon size={24} />
+            </div>
+          )}
+        </div>
+      ))}
+    </RadioGroup>
   );
 };
 
