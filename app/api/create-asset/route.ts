@@ -13,7 +13,7 @@ type Data = {
     data?: any;
 };
 
-function base64ToBlob(base64, mimeType) {
+function base64ToBlob(base64: string, mimeType: any) {
     // Decode the Base64 string
     const byteCharacters = atob(base64);
 

@@ -11,6 +11,7 @@ import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
 import { Check, CheckCheckIcon } from "lucide-react";
 import clsx from "clsx";
 import { useFormSelection } from "@/hooks/use-form-selection";
+import Image from "next/image";
 
 type Image = {
   id: string;
@@ -49,7 +50,7 @@ const ImageUpload = ({ images }: Props) => {
     setLoading(false);
   };
 
-  const fileUploadInput = React.useRef(null);
+  const fileUploadInput = React.useRef<HTMLInputElement>(null);
 
   return (
     <RadioGroup

@@ -74,6 +74,6 @@ export const getImageMeta = (url: string) => {
 };
 
 
-export function classNames(...classes) {
+export function classNames(...classes: (string | undefined | null | false)[]) {
     return classes.filter(Boolean).join(" ");
 }

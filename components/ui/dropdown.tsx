@@ -3,7 +3,19 @@ import { Menu, Transition } from "@headlessui/react";
 import { CheckIcon, ChevronDownIcon, ChevronUpIcon } from "lucide-react";
 import { Fragment } from "react";
 
-function DropDown({ state, setState, itemList, onClick = () => {} }) {
+type DropDownProps = {
+  state: string;
+  setState: (newState: string) => void;
+  itemList: string[];
+  onClick?: (item: string) => void;
+};
+
+function DropDown({
+  state,
+  setState,
+  itemList,
+  onClick = () => {},
+}: DropDownProps) {
   return (
     <Menu as="div" className="relative block text-left">
       <div>

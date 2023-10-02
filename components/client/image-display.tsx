@@ -1,4 +1,5 @@
 import { useSupabase } from "@/hooks/use-supabase";
+import Image from "next/image";
 import { useState, useEffect } from "react";
 
 type Props = {
@@ -34,7 +35,7 @@ function ImageDisplay(props: Props) {
     };
 
     return () => {};
-  }, []);
+  }, [generationId, supabase]);
 
   return (
     <div className="max-w-7xl mx-auto max-h-[80vh] p-4">

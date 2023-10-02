@@ -38,11 +38,11 @@ export async function middleware(req: NextRequest) {
         return NextResponse.rewrite(new URL('/api/error', req.url));
     }
 
-    const id = session?.user?.id;
-    const email = session?.user?.email;
+    if (!session) {
+        return NextResponse.rewrite(new URL('/api/error', req.url));
+    }
 
-    requestHeaders.set('x-uid', id);
-    requestHeaders.set('x-email', email);
+
     await supabase.auth.getSession();
     return NextResponse.next({
         request: {

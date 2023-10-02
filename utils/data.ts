@@ -12,7 +12,7 @@ export const rooms = [
     "Home Office",
 ];
 
-export const neew = [
+export const selectionDB = [
     {
         room: "Foyer/Entryway",
         prompt:
@@ -538,27 +538,27 @@ export const palletes = [
     },
 ];
 
-export function generatePrompts() {
-    let prompts = [];
+// export function generatePrompts() {
+//     let prompts = [];
 
-    for (const roomItem of neew) {
-        const room = roomItem.room;
-        const roomPrompt = roomItem.prompt;
+//     for (const roomItem of selectionDB) {
+//         const room = roomItem.room;
+//         const roomPrompt = roomItem.prompt;
 
-        for (const themeItem of roomItem.themes) {
-            const themeName = themeItem.name;
+//         for (const themeItem of roomItem.themes) {
+//             const themeName = themeItem.name;
 
-            for (const palleteName of themeItem.pallete) {
-                const palleteItem = palletes.find((e) => e.name === palleteName);
-                const palletePrompt = palleteItem.color_prompt;
+//             for (const palleteName of themeItem.pallete) {
+//                 const palleteItem = palletes.find((e) => e.name === palleteName);
+//                 const palletePrompt = palleteItem.color_prompt;
 
-                const prompt = `${room}, ${themeName} style, ${palletePrompt} interior, ${roomPrompt}`;
-                prompts.push({ prompt, room, themeName, palleteName });
-            }
-        }
-    }
+//                 const prompt = `${room}, ${themeName} style, ${palletePrompt} interior, ${roomPrompt}`;
+//                 prompts.push({ prompt, room, themeName, palleteName });
+//             }
+//         }
+//     }
 
-    return prompts;
-}
+//     return prompts;
+// }
 
-export const promptLoops = generatePrompts();
+// export const promptLoops = generatePrompts();
