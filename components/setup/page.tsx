@@ -17,7 +17,6 @@ type Props = {
 };
 const PageComponent = ({ images }: Props) => {
   const [generationId, setGenerationId] = useState<string | null>(null);
-  console.log(generationId, "here");
   return (
     <section className="relative h-[100vh]">
       <div className="flex flex-row w-full h-full h-adjusted">

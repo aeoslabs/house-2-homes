@@ -22,7 +22,6 @@ function ImageDisplay(props: Props) {
           table: "generations",
         },
         (payload) => {
-          console.log(payload, generationId, "here");
           if (true) {
             setImageUrl(payload.new.url);
           }

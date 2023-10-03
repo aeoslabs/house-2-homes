@@ -62,26 +62,3 @@ type Prediction<T> = {
     output: T;
 };
 
-export async function getPredictionFromPolling<T>(url: string) {
-    try {
-        const response = await fetch(url, {
-            method: 'GET',
-            headers: {
-                Authorization: `Token ${REPLICATE_API_TOKEN}`,
-                'Content-Type': 'application/json'
-            }
-        });
-
-        if (response.status !== 200) {
-            let error = (await response.json()) as { detail: string };
-            throw new Error(error.detail);
-        }
-
-        const prediction = await response.json();
-
-        return prediction as Prediction<T>;
-    } catch (error) {
-        logger.error(error, 'Replicate get prediction fetch error');
-        throw error;
-    }
-}
