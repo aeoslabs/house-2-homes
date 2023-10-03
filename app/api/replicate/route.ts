@@ -1,4 +1,4 @@
-import { getPredictionFromPolling, replicatePost } from "@/app/replicate-client";
+import { replicatePost } from "@/app/replicate-client";
 import { supabaseAdmin } from "@/app/supabase-admin-client";
 import { extractUserDetailsFromHeaders } from "@/utils/server-helpers";
 import { NextResponse } from "next/server";
@@ -23,8 +23,7 @@ export async function POST(req: Request) {
   }
 
   const body = await req.json();
-  const { model, image, prompt, n_prompt } = body;
-  console.log(body, "body");
+  const { model, modelName, image, prompt, n_prompt } = body;
   const { data: generationsData, error: generationsError } = await supabaseAdmin
     .from('generations')
     .insert([{
@@ -35,7 +34,7 @@ export async function POST(req: Request) {
     }]).select("id").single()
 
   if (generationsError) {
-    console.log(generationsError, "generationsError");
+    console.error("Error:", generationsError);
     return NextResponse.json({
       success: false,
       message: "Something went wrong",
@@ -50,21 +49,22 @@ export async function POST(req: Request) {
   try {
     const predictionResponse = await replicatePost(
       String(model),
+      modelName,
       {
         image,
         prompt,
         n_prompt,
+        image_resolution: "768",
       },
       webhook
     );
-    console.log(predictionResponse)
     return NextResponse.json({
       success: true,
       message: `${predictionResponse.status} prediction`,
       generationId: generationsData.id,
     });
   } catch (error) {
-    console.log(error, "err");
+    console.error("Error:", error);
     return NextResponse.json({
       success: false,
       message: "Something went wrong",

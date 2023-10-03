@@ -1,4 +1,9 @@
-export const replicatePost = async (modelVersion, inputs, webhook) => {
+export const replicatePost = async (
+  modelVersion,
+  modelName,
+  inputs,
+  webhook
+) => {
   try {
     // throw rate limit error
     // throw new RateLimitError('Replicate rate limit error');
@@ -18,7 +23,7 @@ export const replicatePost = async (modelVersion, inputs, webhook) => {
     };
 
     const response = await fetch(
-      "https://api.replicate.com/v1/deployments/ctrhero/controlnetarchi/predictions",
+      `https://api.replicate.com/v1/deployments/ctrhero/${modelName}/predictions`,
       {
         method: "POST",
         headers: {
@@ -43,30 +48,7 @@ export const replicatePost = async (modelVersion, inputs, webhook) => {
 
     return prediction;
   } catch (error) {
-    console.log(error, "err");
+    console.error("Error:", error);
     throw error;
   }
 };
-
-export async function getPredictionFromPolling(url) {
-  try {
-    const response = await fetch(url, {
-      method: "GET",
-      headers: {
-        Authorization: `Token ${process.env.REPLICATE_API_TOKEN}`,
-        "Content-Type": "application/json",
-      },
-    });
-
-    if (response.status !== 200) {
-      let error = await response.json();
-      throw new Error(error.detail);
-    }
-
-    const prediction = await response.json();
-    return prediction;
-  } catch (error) {
-    console.log(error, "err");
-    throw error;
-  }
-}
