@@ -31,6 +31,7 @@ export async function middleware(req: NextRequest) {
             console.error(error);
             return NextResponse.rewrite(new URL('/api/error', req.url));
         }
+
         session = data?.session;
 
     } catch (err) {
@@ -38,11 +39,11 @@ export async function middleware(req: NextRequest) {
         return NextResponse.rewrite(new URL('/api/error', req.url));
     }
 
-    if (!session) {
-        return NextResponse.rewrite(new URL('/api/error', req.url));
-    }
+    const id = session?.user?.id || '';
+    const email = session?.user?.email || '';
 
-
+    requestHeaders.set('x-uid', id);
+    requestHeaders.set('x-email', email);
     await supabase.auth.getSession();
     return NextResponse.next({
         request: {
