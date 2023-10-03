@@ -1,17 +1,3 @@
-export const rooms = [
-    "Foyer/Entryway",
-    "Living Room",
-    "Kitchen",
-    "Dining Room",
-    "Master Bedroom",
-    "Kids Bedroom",
-    "Gym Room",
-    "Guest Room",
-    "Study Room",
-    "Game Room",
-    "Home Office",
-];
-
 export const selectionDB = [
     {
         room: "Foyer/Entryway",
@@ -184,7 +170,7 @@ export const selectionDB = [
     {
         room: "Master Bedroom",
         process:
-            "king-size bed, walk-in closet, vanity, amazing lighting, high quality, 8k, UHD, unreal engine, no humans, 4000 samples, without windows.",
+            "king-size bed, walk-in closet, vanity, amazing lighting, high resolution, high quality, 8k, UHD, unreal engine, no humans, 4000 samples, without windows.",
         themes: [
             {
                 name: "Indian Ancient",
@@ -400,24 +386,17 @@ export const selectionDB = [
             },
         ],
     },
-    // {
-    //   room: "Pooja Room",
-    //   prompt:
-    //     "altar, idols, lamps, high quality, 8k, UHD, amazing lighting, amazing quality, photoreal, hyper realistic, no humans, 4000 samples, no windows, without windows, closed walls.",
-    //   themes: [
-    //     {
-    //       name: "Indian Ancient",
-    //       pallete: [
-    //         //"Wooden Design",
-    //         "Minimalistic Style",
-    //       ],
-    //     },
-    //     {
-    //       name: "Indian Minimalistic",
-    //       pallete: ["Minimalistic Style"],
-    //     },
-    //   ],
-    // },
+    {
+        room: "Pooja Room",
+        prompt:
+            "altar, idols, lamps, high quality, 8k, UHD, amazing lighting, amazing quality, photoreal, hyper realistic, no humans, 4000 samples, no windows, without windows, closed walls.",
+        themes: [
+            {
+                name: "Indian Ancient",
+                pallete: ["Wooden Design", "Modern Neutrals"],
+            },
+        ],
+    },
 ];
 
 export const palletes = [
@@ -426,8 +405,13 @@ export const palletes = [
         color_prompt: "Dark Brown, Red, Beige, Navy Blue",
     },
     {
+        name: "Wooden Design",
+        color_prompt: "wooden design style, dark Brown, Red, Beige,",
+    },
+    {
         name: "Royal Tapestries",
-        color_prompt: "Saffron orange, royal blue, emerald green, gold",
+        color_prompt:
+            "wooden chest, rich velvets, royal blue, golden yellow, deep red",
     },
     {
         name: "Natural Earth Tones",
@@ -494,7 +478,7 @@ export const palletes = [
     {
         name: "Raw Elements",
         color_prompt:
-            "Slate gray, rusted red, metallic silver, matte black, burnished gold",
+            "iron frame, exposed brick, rugged charm, cement gray, rust brown, burnished gold steel blue, interior.",
     },
     {
         name: "Warehouse Vibes",
@@ -534,7 +518,7 @@ export const palletes = [
     {
         name: "Whimsical Wanderlust",
         color_prompt:
-            " dark pink, lime green, sunny yellow, dark blue, turquoise textured mini cussions or small puffy sofa arm chair with golden rod small table planters, checkered rug, chris-cross rugs, pattern rugs, all four white wall interior",
+            "ornate headboard, patterned rugs, playful textures, bright teal, lavender purple, sun-yellow, interior, whimsical details",
     },
 ];
 
