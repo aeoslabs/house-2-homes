@@ -17,6 +17,7 @@ import CreditCount from "./credit-count";
 import { useSupabase } from "@/hooks/use-supabase";
 import { useUser } from "@/hooks/use-user";
 import { useEffect } from "react";
+import { poppins } from "@/app/fonts";
 
 const Navbar = () => {
   const router = useRouter();
@@ -90,21 +91,24 @@ const Navbar = () => {
 
   return (
     <nav className="z-99 h-14">
-      <div>
+      <div className={poppins.className}>
         <div className="flex justify-between align-center flex-row py-2 px-4 relative">
-          <div className="flex flex-1 items-center space-x-4">
-            <Link href="/" aria-label="Logo">
-              {/* <img src="/logo.png" alt="AlphaCTR" width={128} /> */}
-              <p className="font-bold">HouseKraft</p>
+          <div className="flex flex-1 items-center gap-4">
+            <Link href="/" aria-label="Logo" className="mx-2">
+              <img src="/logo.svg" alt="AlphaCTR" width={150} />
             </Link>
             {user && (
-              <Link href="/" aria-label="Dashboard Button">
-                <Button variant="link">Dashboard</Button>
+              <Link href="/" aria-label="Dashboard">
+                <Button variant="link" className="font-thin uppercase">
+                  Dashboard
+                </Button>
               </Link>
             )}
             {user && (
-              <Link href="/" aria-label="Account">
-                <Button variant="link">Account</Button>
+              <Link href="/account" aria-label="Account">
+                <Button variant="link" className="font-thin uppercase">
+                  Account
+                </Button>
               </Link>
             )}
           </div>

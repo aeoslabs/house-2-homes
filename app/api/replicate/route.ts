@@ -1,7 +1,14 @@
 import { replicatePost } from "@/app/replicate-client";
 import { supabaseAdmin } from "@/app/supabase-admin-client";
+import logger from "@/logger";
+import { RateLimitError } from "@/utils/custom-errors";
+import { qStashCall } from "@/utils/qstash";
 import { extractUserDetailsFromHeaders } from "@/utils/server-helpers";
 import { NextResponse } from "next/server";
+
+const {
+  VERCEL_URL,
+} = process.env;
 
 export async function POST(req: Request) {
 
@@ -42,11 +49,12 @@ export async function POST(req: Request) {
   }
 
   const webhook = {
-    url: `https://cd75-116-75-117-27.ngrok-free.app/api/webhook/${generationsData.id}`,
+    url: `https://${VERCEL_URL}/api/webhook/${generationsData.id}`,
     events: ["completed"],
   };
 
   try {
+   
     const predictionResponse = await replicatePost(
       String(model),
       modelName,
@@ -64,7 +72,20 @@ export async function POST(req: Request) {
       generationId: generationsData.id,
     });
   } catch (error) {
-    console.error("Error:", error);
+    if (error instanceof RateLimitError) {
+      console.log('here')
+      logger.info(
+        error,
+        "Rate limit error"
+      );
+
+      const qstashBody = {
+        ...req.body,
+        url: `https://${VERCEL_URL}/api/replicate`
+      };
+      await qStashCall(qstashBody);
+    }
+
     return NextResponse.json({
       success: false,
       message: "Something went wrong",

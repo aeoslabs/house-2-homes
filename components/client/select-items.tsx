@@ -6,22 +6,26 @@ import axios from "axios";
 import { useFormSelection } from "@/hooks/use-form-selection";
 import DropDown from "../ui/dropdown";
 import { useToast } from "../ui/use-toast";
+import CenteredSpinner from "../ui/centered-spinner";
+import { cormorant, poppins } from "@/app/fonts";
 
 type Props = {
   setGenerationId: React.Dispatch<React.SetStateAction<string | null>>;
+  loading: boolean;
+  setLoading: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const SelectItems = ({ setGenerationId }: Props) => {
+const titleStyle = `${poppins.className} uppercase mt-8 mb-3 font-normal`;
+
+const SelectItems = ({ setGenerationId, loading, setLoading }: Props) => {
   const [room, setRooms] = useState("Foyer/Entryway");
   const [theme, setTheme] = useState("Indian Contemporary");
   const [pallete, setPallete] = useState("Natural Earth Tones");
-  const [loading, setLoading] = useState(false);
 
   const { selection } = useFormSelection();
   const { toast } = useToast();
 
   const replicatefetch = async () => {
-    setLoading(true);
     if (!selection.selectedBaseImage) {
       toast({
         title: "Error",
@@ -30,7 +34,7 @@ const SelectItems = ({ setGenerationId }: Props) => {
       });
       return;
     }
-
+    setLoading(true);
     const selectedPalleteColor =
       palletes.find((e) => e.name === pallete)?.color_prompt || "";
     const selectedRoomPrompt =
@@ -67,20 +71,23 @@ const SelectItems = ({ setGenerationId }: Props) => {
       setGenerationId(prediction.data.generationId);
 
       if (prediction.data.success) {
-        setLoading(false);
       } else {
         console.error("Error:", prediction.data.error);
-        setLoading(false);
       }
     } catch (error) {
       console.error("Error:", error);
+      toast({
+        title: "Error",
+        description: "Something went wrong",
+        variant: "destructive",
+      });
       setLoading(false);
     }
   };
 
   return (
-    <>
-      <p className="text-center mt-8 mb-2">Select Room Type</p>
+    <div className="h-[100%] flex flex-col">
+      <p className={titleStyle}>Select Room Type</p>
       <DropDown
         state={room}
         setState={(newroom: string) => setRooms(newroom)}
@@ -95,7 +102,7 @@ const SelectItems = ({ setGenerationId }: Props) => {
         }}
         itemList={selectionDB.map((room) => room.room)}
       />
-      <p className="text-center mt-8 mb-2">Select Room Themes</p>
+      <p className={titleStyle}>Select Room Themes</p>
       <DropDown
         state={theme}
         setState={(newTheme: string) => setTheme(newTheme)}
@@ -117,7 +124,7 @@ const SelectItems = ({ setGenerationId }: Props) => {
         }
       />
 
-      <p className="text-center mt-8 mb-2">Select Color Palettes</p>
+      <p className={titleStyle}>Select Color Palettes</p>
       <DropDown
         state={pallete}
         setState={(newPalette: string) => setPallete(newPalette)}
@@ -128,12 +135,12 @@ const SelectItems = ({ setGenerationId }: Props) => {
         }
       />
       <button
-        className="rounded-md bg-slate-800 text-white p-3 mt-8"
+        className="bg-[#212121] text-[#ffffff] p-3 w-full mt-auto mb-0 hover:bg-[#c4c1b8] hover:text-[#212121] transition-all"
         onClick={replicatefetch}
       >
-        Render Design
+        {loading ? <CenteredSpinner /> : "Render Design"}
       </button>
-    </>
+    </div>
   );
 };
 

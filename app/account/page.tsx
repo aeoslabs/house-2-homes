@@ -1,6 +1,9 @@
 import AccountComponent from "@/components/setup/account";
-import { getSession } from "../supabase-server";
+import { getGenerationImages, getSession } from "../supabase-server";
 import { redirect } from "next/navigation";
+import { Database } from "@/types/supabase";
+
+type Image = Database["public"]["Tables"]["generations"]["Row"];
 
 export default async function Account() {
   const session = await getSession();
@@ -9,5 +12,6 @@ export default async function Account() {
     return redirect("/");
   }
 
-  return <AccountComponent />;
+  const images: Image[] = await getGenerationImages();
+  return <AccountComponent images={images} />;
 }
