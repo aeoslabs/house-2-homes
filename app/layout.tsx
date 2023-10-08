@@ -2,7 +2,6 @@ import { MyUserContextProvider } from "@/hooks/use-user";
 import SupabaseProvider from "@/hooks/use-supabase";
 import "./globals.css";
 import type { Metadata } from "next";
-import { Cormorant_Garamond, Inter, Poppins } from "next/font/google";
 import { FormSelectionContextProvider } from "@/hooks/use-form-selection";
 import { Toaster } from "@/components/ui/toaster";
 import { poppins } from "./fonts";

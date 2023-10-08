@@ -1,26 +1,13 @@
 "use client";
 
 import { cormorant } from "@/app/fonts";
+import { downloadImage } from "@/lib/utils";
 import { Database } from "@/types/supabase";
 
 type Image = Database["public"]["Tables"]["generations"]["Row"];
 
 type Props = {
   images: Image[];
-};
-
-const downloadImage = async (image: any) => {
-  const imageUrl = image; // Replace with your image URL
-  const response = await fetch(imageUrl);
-  const blob = await response.blob();
-
-  const link = document.createElement("a");
-  link.href = URL.createObjectURL(blob);
-  link.download = `generated.png`;
-
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
 };
 
 const AccountComponent = (props: Props) => {

@@ -4,6 +4,9 @@ dependencies:
   '@headlessui/react':
     specifier: ^1.7.17
     version: 1.7.17(react-dom@18.2.0)(react@18.2.0)
+  '@img-comparison-slider/react':
+    specifier: ^8.0.0
+    version: 8.0.0
   '@radix-ui/react-avatar':
     specifier: ^1.0.3
     version: 1.0.3(@types/react-dom@18.2.7)(@types/react@18.2.21)(react-dom@18.2.0)(react@18.2.0)
@@ -277,6 +280,12 @@ packages:
 
   /@humanwhocodes/object-schema@1.2.1:
     resolution: {integrity: sha512-ZnQMnLV4e7hDlUvw8H+U8ASL02SS2Gn6+9Ac3wGGLIe7+je2AeAOxPY+izIPJDfFDb7eDjev0Us8MO1iFRN8hA==}
+    dev: false
+
+  /@img-comparison-slider/react@8.0.0:
+    resolution: {integrity: sha512-hUnpGaN2MT8LJytTYcrik13bahog0MY/eJ42TBBY02F6SZknyUB1im0lUb99TuUX9H9wDMcvW3zqTtOElrB6vQ==}
+    dependencies:
+      img-comparison-slider: 8.0.1
     dev: false
 
   /@jridgewell/gen-mapping@0.3.3:
@@ -2980,6 +2989,10 @@ packages:
   /ignore@5.2.4:
     resolution: {integrity: sha512-MAb38BcSbH0eHNBxn7ql2NH/kX33OkB3lZ1BNdh7ENeRChHTYsTvWrMubiIAMNS2llXEEgZ1MUOBtXChP3kaFQ==}
     engines: {node: '>= 4'}
+
+  /img-comparison-slider@8.0.1:
+    resolution: {integrity: sha512-Z15m78FhlG0wAg1nhl8oaJgXukxeB9ZRSHbLFyBk3tSG/VfB05vL8FW0DJlm9ztrJc8kE5Q3R979FLhcKohP3Q==}
+    dev: false
 
   /import-fresh@3.3.0:
     resolution: {integrity: sha512-veYYhQa+D1QBKznvhUHxb8faxlrwUnxseDAbAp457E0wLNio2bOSKnjYDhMj+YiAq61xrMGhQk9iXVk5FzgQMw==}

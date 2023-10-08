@@ -5,20 +5,20 @@ import type { Database } from "@/types/supabase";
 
 export async function middleware(req: NextRequest) {
     // Error, Signin, Webhook routes
-    if (['/api/error', '/signin', '/webhook'].includes(req.nextUrl.pathname)) {
+    if (['/api/error', '/', '/webhook'].includes(req.nextUrl.pathname)) {
         return NextResponse.next();
     }
 
 
-    if (
-        req.nextUrl.pathname.startsWith('/api/replicatee')
-    ) {
-        const authHeader = req.headers.get('x-api-key');
-        if (authHeader === String(process.env.EDGE_FUNCTION_API_KEY)) {
-            return NextResponse.next();
-        }
-        return NextResponse.rewrite(new URL('/api/error', req.url));
-    }
+    // if (
+    //     req.nextUrl.pathname.startsWith('/api/replicate')
+    // ) {
+    //     const authHeader = req.headers.get('x-api-key');
+    //     if (authHeader === String(process.env.EDGE_FUNCTION_API_KEY)) {
+    //         return NextResponse.next();
+    //     }
+    //     return NextResponse.rewrite(new URL('/api/error', req.url));
+    // }
     // Handle Supabase authentication.
 
     const requestHeaders = new Headers(req.headers);

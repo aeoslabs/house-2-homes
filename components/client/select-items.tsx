@@ -7,7 +7,7 @@ import { useFormSelection } from "@/hooks/use-form-selection";
 import DropDown from "../ui/dropdown";
 import { useToast } from "../ui/use-toast";
 import CenteredSpinner from "../ui/centered-spinner";
-import { cormorant, poppins } from "@/app/fonts";
+import { poppins } from "@/app/fonts";
 
 type Props = {
   setGenerationId: React.Dispatch<React.SetStateAction<string | null>>;
@@ -57,7 +57,7 @@ const SelectItems = ({ setGenerationId, loading, setLoading }: Props) => {
         "((pooja room)) design on walls of  a living room, single ((Ganesha)) idol ,modern neutral style,  interior, high quality, 8k, UHD, amazing lighting, amazing quality, photoreal, hyper realistic, soft lighting, 3d render, unreal engine, octane render , no humans, 4000 samples";
     }
     try {
-      const prediction = await axios.post("/api/replicate", {
+      const payload = {
         model: room == "Pooja Room" ? "1f91fb65" : "4722e6ce",
         modelName: room == "Pooja Room" ? "puja-lora" : "controlnetarchi",
         image: selection.selectedBaseImage,
@@ -66,7 +66,9 @@ const SelectItems = ({ setGenerationId, loading, setLoading }: Props) => {
           room == "Pooja Room"
             ? ""
             : "(curves), (uneven lines), (normal quality), (low quality), (worst quality), (ceiling artifacts), (ceiling fans), ceiling decor, humans, windows, glass doors, cropped image, out of frame, deformed hands, signatures, twisted fingers, double image, long neck, malformed hands, multiple heads, extra limb, poorly drawn hands, missing limb, disfigured, cut-off, grainy, distorted face, blurry, bad anatomy, beginner, amateur, distorted face, distorted furniture, distorted items, draft, grainy, text, watermark, ugly, signature, lowres, deformed, disfigured, cropped, jpeg artifacts, error, mutation, logo, wooden, watermark, text, logo, contact, error, blurry, cropped, username, artist name, (worst quality, low quality:1.4),monochrome",
-      });
+      };      
+      
+      const prediction = await axios.post("/api/replicate", payload);
 
       setGenerationId(prediction.data.generationId);
 

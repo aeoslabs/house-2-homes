@@ -4,7 +4,7 @@ import { supabaseAdmin, supabaseStorage, updateGenerationStatus } from "@/app/su
 import { v4 } from "uuid";
 
 export async function POST(req: Request, { params }: { params: { id: string } }) {
-
+    console.log('params', req.method, req.url)
     if (req.method !== "POST") {
         return sendErrorResponse("Method not allowed", 405);
     }

@@ -65,7 +65,7 @@ const Navbar = () => {
               <DropdownMenuItem
                 onClick={async () => {
                   await supabase.auth.signOut();
-                  await router.push("/signin");
+                  await router.push("/");
                 }}
               >
                 Sign out

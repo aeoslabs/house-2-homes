@@ -11,13 +11,14 @@ const {
 } = process.env;
 
 export async function POST(req: Request) {
-
-  if (req.method !== "POST") {
-    return NextResponse.json({
-      success: false,
-      message: "Method not allowed",
-    });
-  }
+  console.log('req', req)
+  // if (req.method !== "POST") {
+  //   return NextResponse.json({
+  //     success: false,
+  //     message: "Method not allowed",
+  //     status: 405
+  //   });
+  // }
 
   if (!req.headers) {
     throw new Error("Headers are not defined.");
@@ -54,7 +55,7 @@ export async function POST(req: Request) {
   };
 
   try {
-   
+
     const predictionResponse = await replicatePost(
       String(model),
       modelName,
