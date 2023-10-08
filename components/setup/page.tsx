@@ -141,7 +141,7 @@ const IndexComponent = () => {
               <div className="relative w-[40%]  md:w-full sm:w-full rounded-xl shadow-xl overflow-hidden">
                 {/* Placeholder Image */}
                 <img
-                  src="/hero.jpg"
+                  src={"/hero.jpg" || undefined}
                   alt="Architectural Design"
                   className=" hover:scale-105 transition duration-500 ease-in-out"
                 />
@@ -163,10 +163,13 @@ const IndexComponent = () => {
         by artificial intelligence."
             />
             <div className="grid grid-cols-3 gap-8 md:gap-6 md:grid-cols-2 sm:flex sm:flex-col">
-              {images.map((image) => (
-                <div className="relative rounded-lg shadow-xl overflow-hidden">
+              {images.map((image, index) => (
+                <div
+                  key={index}
+                  className="relative rounded-lg shadow-xl overflow-hidden"
+                >
                   <img
-                    src={image}
+                    src={image || undefined}
                     alt="Architectural Design"
                     className=" hover:scale-105 transition duration-500 ease-in-out"
                   />
@@ -185,7 +188,10 @@ const IndexComponent = () => {
             />
             <div className="grid grid-cols-3 sm:grid-cols-2 gap-8 md:gap-6 md:grid-cols-2 sm:flex sm:flex-col">
               {featuresData.map((feature, index) => (
-                <div className="bg-[#212121] p-8 border rounded-lg hover:shadow-lg hover:bg-[#1c1c1c] transition-transform transform hover:scale-105 transition-shadow duration-300 transition-background-color duration-200">
+                <div
+                  key={index}
+                  className="bg-[#212121] p-8 border rounded-lg hover:shadow-lg hover:bg-[#1c1c1c] transition-transform transform hover:scale-105 transition-shadow duration-300 transition-background-color duration-200"
+                >
                   <h3
                     className={`${cormorant.className} text-white text-2xl mb-4`}
                   >
@@ -213,24 +219,24 @@ const IndexComponent = () => {
                 <img
                   className="h-full object-cover rounded-lg "
                   slot="first"
-                  src="/base2.png"
+                  src={"/base2.png" || undefined}
                 />
                 <img
                   className="h-full object-cover rounded-lg"
                   slot="second"
-                  src="/large1.png"
+                  src={"/large1.png" || undefined}
                 />
               </ImgComparisonSlider>
               <ImgComparisonSlider>
                 <img
                   className="h-full object-cover rounded-lg"
                   slot="first"
-                  src="/base2.png"
+                  src={"/base2.png" || undefined}
                 />
                 <img
                   className="h-full object-cover rounded-lg"
                   slot="second"
-                  src="/large2.png"
+                  src={"/large2.png" || undefined}
                 />
               </ImgComparisonSlider>
             </div>
@@ -246,14 +252,14 @@ const IndexComponent = () => {
             <div className="flex flex-col  gap-8 md:gap-6">
               <div className="relative rounded-lg shadow-xl overflow-hidden">
                 <img
-                  src="/large1.png"
+                  src={"/large1.png" || undefined}
                   alt="Architectural Design"
                   className=" hover:scale-105 transition duration-500 ease-in-out"
                 />
               </div>
               <div className="relative rounded-lg shadow-xl overflow-hidden">
                 <img
-                  src="/large2.png"
+                  src={"/large2.png" || undefined}
                   alt="Architectural Design"
                   className=" hover:scale-105 transition duration-500 ease-in-out"
                 />

@@ -31,7 +31,7 @@ const AccountComponent = (props: Props) => {
                 >
                   <img
                     className="h-[400px] object-cover w-full"
-                    src={image.url}
+                    src={image.url || undefined}
                   />
                   <button
                     onClick={() => downloadImage(image.url)}
