@@ -18,7 +18,7 @@ export default function RootLayout({
       <SupabaseProvider>
         <MyUserContextProvider>
           <FormSelectionContextProvider>
-            <body className={poppins.className}>
+            <body className={`${poppins.className} bg-white`}>
               <main>{children}</main>
               <Toaster />
             </body>

@@ -8,6 +8,9 @@ import Head from "next/head";
 import { cormorant, poppins } from "@/app/fonts";
 import { useRef, useState } from "react";
 import { ImgComparisonSlider } from "@img-comparison-slider/react";
+import { useUser } from "@/hooks/use-user";
+import { Button } from "../ui/button";
+import { useRouter } from "next/navigation";
 
 const images = [
   "room1.jpg",
@@ -63,9 +66,11 @@ const featuresData = [
 
 const IndexComponent = () => {
   const { supabase } = useSupabase();
+  const { user } = useUser();
+  const router = useRouter();
 
   return (
-    <div className={`${poppins.className} bg-white`}>
+    <div className={`${poppins.className} `}>
       <Head>
         <title>HouseKraft</title>
       </Head>
@@ -87,34 +92,44 @@ const IndexComponent = () => {
                   designs...
                 </p>
                 <div className="flex flex-col items-start gap-2">
-                  <Auth
-                    supabaseClient={supabase}
-                    providers={["google"]}
-                    onlyThirdPartyProviders={true}
-                    redirectTo={getURL()}
-                    appearance={{
-                      theme: ThemeSupa,
-                      variables: {
-                        default: {
-                          colors: {
-                            defaultButtonText: "white",
-                            defaultButtonBackground: "#334155",
-                            defaultButtonBorder: "#334155",
-                            defaultButtonBackgroundHover: "#64748b",
+                  {user ? (
+                    <Button
+                      onClick={() => router.push("/generate")}
+                      className="bg-[#334155] hover:bg-[#64748b] rounded-sm px-8 py-4"
+                    >
+                      Generate Designs
+                    </Button>
+                  ) : (
+                    <Auth
+                      supabaseClient={supabase}
+                      providers={["google"]}
+                      onlyThirdPartyProviders={true}
+                      redirectTo={getURL()}
+                      appearance={{
+                        theme: ThemeSupa,
+                        variables: {
+                          default: {
+                            colors: {
+                              defaultButtonText: "white",
+                              defaultButtonBackground: "#334155",
+                              defaultButtonBorder: "#334155",
+                              defaultButtonBackgroundHover: "#64748b",
+                            },
                           },
                         },
-                      },
-                    }}
-                    dark
-                    theme="default"
-                    localization={{
-                      variables: {
-                        sign_in: {
-                          social_provider_text: "Continue with Google",
+                      }}
+                      dark
+                      theme="default"
+                      localization={{
+                        variables: {
+                          sign_in: {
+                            social_provider_text: "Continue with Google",
+                          },
                         },
-                      },
-                    }}
-                  />
+                      }}
+                    />
+                  )}
+
                   <span className="text-slate-500 text-xs text-center">
                     By signing in, you agree to our{" "}
                     <a
@@ -157,10 +172,10 @@ const IndexComponent = () => {
               heading="Welcome to HouseKraft: Revolutionizing Interior and Exterior Design
         with AI"
               paragraph="Are you an interior designer or architect seeking a cutting-edge
-        solution that will transform your client's homes into any theme they
-        desire? Look no further! HouseKraft is here to revolutionize the way
-        you approach design, offering unparalleled features and benefits powered
-        by artificial intelligence."
+              solution that will transform your client's homes into any theme they
+              desire? Look no further! HouseKraft is here to revolutionize the way
+              you approach design, offering unparalleled features and benefits powered
+              by artificial intelligence."
             />
             <div className="grid grid-cols-3 gap-8 md:gap-6 md:grid-cols-2 sm:flex sm:flex-col">
               {images.map((image, index) => (

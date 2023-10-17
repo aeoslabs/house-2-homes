@@ -1,14 +1,11 @@
-import { redirect } from "next/navigation";
-import { getSession } from "./supabase-server";
 import IndexComponent from "@/components/setup/page";
+import Navbar from "@/components/ui/navbar";
 
 export default async function Index() {
-  const session = await getSession();
-  console.log(session, "hereee");
-
-  if (session) {
-    return redirect("/generate");
-  }
-
-  return <IndexComponent />;
+  return (
+    <div className="h-[100vh] flex flex-col justify-between">
+      <Navbar />
+      <IndexComponent />
+    </div>
+  );
 }

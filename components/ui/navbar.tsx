@@ -25,18 +25,16 @@ const Navbar = () => {
   const { supabase } = useSupabase();
   useEffect(() => {
     if (user) {
+      // add mixpanel here
     }
   }, [user]);
-  // const { supabase } = useSupabase();
 
-  //   const totalCredits =
-  //     Number(userDetails?.credits) + Number(userDetails?.addon_credits) || 0;
   function AuthedNavBar() {
     return (
       <ul className="flex flex-1 justify-end items-center space-x-6">
-        <li className="items-center space-x-1">
+        {/* <li className="items-center space-x-1">
           <CreditCount count={3} />
-        </li>
+        </li> */}
         <li>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -47,7 +45,11 @@ const Navbar = () => {
                 </AvatarFallback>
               </Avatar>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="start" forceMount>
+            <DropdownMenuContent
+              align="start"
+              forceMount
+              className="rounded-none border border-[#86868629] shadow-none"
+            >
               <DropdownMenuLabel className="opacity-80">
                 My Account
               </DropdownMenuLabel>
@@ -81,7 +83,7 @@ const Navbar = () => {
     return (
       <ul className="flex flex-1 justify-end items-center space-x-8">
         <li>
-          <Link href="/signin" aria-label="Sign In">
+          <Link href="/signin" className="opacity-0" aria-label="Sign In">
             Sign In
           </Link>
         </li>
@@ -90,20 +92,28 @@ const Navbar = () => {
   }
 
   return (
-    <nav className="z-99 h-14">
+    <nav className="z-99 h-14 ">
       <div className={poppins.className}>
-        <div className="flex justify-between align-center flex-row py-2 px-4 relative">
+        <div className="flex justify-between align-center flex-row py-2 px-4 relative min-h-[7vh]">
           <div className="flex flex-1 items-center gap-4">
             <Link href="/" aria-label="Logo" className="mx-2">
               <img src="/logo.svg" alt="AlphaCTR" width={150} />
             </Link>
             {user && (
-              <Link href="/" aria-label="Dashboard">
+              <Link href="/generate" aria-label="Dashboard">
                 <Button variant="link" className="font-thin uppercase">
-                  Dashboard
+                  Generate
                 </Button>
               </Link>
             )}
+            {/* {user && (
+              <Link href="/pricing" aria-label="Account">
+                <Button variant="link" className="font-thin uppercase">
+                  Pricing
+                </Button>
+              </Link>
+            )} */}
+
             {user && (
               <Link href="/account" aria-label="Account">
                 <Button variant="link" className="font-thin uppercase">
@@ -112,7 +122,6 @@ const Navbar = () => {
               </Link>
             )}
           </div>
-
           {user ? <AuthedNavBar /> : <UnAuthedNavBar />}
         </div>
 
