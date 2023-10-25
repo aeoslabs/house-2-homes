@@ -70,38 +70,6 @@ const AccountComponent = (props: Props) => {
             </>
           </div>
         )}
-
-        <div>
-          <div className="flex flex-col space-y-2">
-            <h1 className={`${cormorant.className} text-6xl sm:text-4xl`}>
-              Past Generations
-            </h1>
-            <p className="mt-5 text-xl text-gray-700 font-thin">
-              Manage your past generations here.
-            </p>
-          </div>
-          <div className="grid grid-cols-3 gap-4 mt-20">
-            {images.map((image) => {
-              return (
-                <div
-                  key={image.id}
-                  className="relative group overflow-hidden transform transition-transform duration-300 hover:scale-105"
-                >
-                  <img
-                    className="h-[400px] object-cover w-full"
-                    src={image.url || undefined}
-                  />
-                  <button
-                    onClick={() => downloadImage(image.url)}
-                    className="absolute bottom-2.5 left-1/2 transform -translate-x-1/2 px-5 py-2.5 bg-black text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                  >
-                    Download
-                  </button>
-                </div>
-              );
-            })}
-          </div>
-        </div>
       </div>
     </section>
   );

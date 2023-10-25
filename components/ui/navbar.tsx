@@ -18,6 +18,7 @@ import { useSupabase } from "@/hooks/use-supabase";
 import { useUser } from "@/hooks/use-user";
 import { useEffect } from "react";
 import { poppins } from "@/app/fonts";
+import CreditIcon from "../icons/credit";
 
 const Navbar = () => {
   const router = useRouter();
@@ -31,49 +32,20 @@ const Navbar = () => {
 
   function AuthedNavBar() {
     return (
-      <ul className="flex flex-1 justify-end items-center space-x-6">
-        {/* <li className="items-center space-x-1">
-          <CreditCount count={3} />
-        </li> */}
+      <ul className="flex mr-0 ml-6 items-center space-x-6">
+        <li className="flex items-center space-x-1">
+          <CreditIcon color="#0f172a" />
+          <span className={`${poppins.className} text-xl text-gray-900`}>{4+1}</span>
+        </li>
         <li>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Avatar className="cursor-pointer">
-                <AvatarImage src={user?.user_metadata.avatar_url} />
-                <AvatarFallback>
-                  {user?.user_metadata.full_name.split(" ")[0].substr(0, 2)}
-                </AvatarFallback>
-              </Avatar>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent
-              align="start"
-              forceMount
-              className="rounded-none border border-[#86868629] shadow-none"
-            >
-              <DropdownMenuLabel className="opacity-80">
-                My Account
-              </DropdownMenuLabel>
-
-              <Link href="/pricing">
-                <DropdownMenuItem className="text-slate-400">
-                  Pricing {/* hide it for screen other than mobile */}
-                </DropdownMenuItem>
-              </Link>
-              <Link href="/account">
-                <DropdownMenuItem>Account</DropdownMenuItem>
-              </Link>
-
-              <DropdownMenuSeparator />
-              <DropdownMenuItem
-                onClick={async () => {
-                  await supabase.auth.signOut();
-                  await router.push("/");
-                }}
-              >
-                Sign out
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+          <Link href="/account">
+            <Avatar className="cursor-pointer">
+              <AvatarImage src={user?.user_metadata.avatar_url} />
+              <AvatarFallback>
+                {user?.user_metadata.full_name.split(" ")[0].substr(0, 2)}
+              </AvatarFallback>
+            </Avatar>
+          </Link>
         </li>
       </ul>
     );
@@ -81,7 +53,7 @@ const Navbar = () => {
 
   function UnAuthedNavBar() {
     return (
-      <ul className="flex flex-1 justify-end items-center space-x-8">
+      <ul className="flex mr-0 ml-6 items-center space-x-8 h-10">
         <li>
           <Link href="/signin" className="opacity-0" aria-label="Sign In">
             Sign In
@@ -94,34 +66,34 @@ const Navbar = () => {
   return (
     <nav className="z-99 h-14 ">
       <div className={poppins.className}>
-        <div className="flex justify-between align-center flex-row py-2 px-4 relative min-h-[7vh]">
-          <div className="flex flex-1 items-center gap-4">
-            <Link href="/" aria-label="Logo" className="mx-2">
+        <div className="flex justify-between align-center flex-row py-2 px-4 relative ">
+          <div className="flex flex-1 items-center gap-4 h-10 w-full">
+            <Link href="/" aria-label="Logo" className="mx-2 mr-auto">
               <img src="/logo.svg" alt="AlphaCTR" width={150} />
             </Link>
             {user && (
               <Link href="/generate" aria-label="Dashboard">
-                <Button variant="link" className="font-thin uppercase">
+                <Button variant="link" className="font-normal uppercase">
                   Generate
                 </Button>
               </Link>
             )}
-            {/* {user && (
-              <Link href="/pricing" aria-label="Account">
-                <Button variant="link" className="font-thin uppercase">
-                  Pricing
+            {user && (
+              <Link href="/generations" aria-label="Dashboard">
+                <Button variant="link" className="font-normal uppercase">
+                  Generations
                 </Button>
               </Link>
-            )} */}
-
+            )}
             {user && (
-              <Link href="/account" aria-label="Account">
-                <Button variant="link" className="font-thin uppercase">
-                  Account
+              <Link href="/pricing" aria-label="Dashboard">
+                <Button variant="link" className="font-normal uppercase">
+                  Pricing
                 </Button>
               </Link>
             )}
           </div>
+
           {user ? <AuthedNavBar /> : <UnAuthedNavBar />}
         </div>
 
