@@ -63,6 +63,7 @@ const SelectItems = ({ setGenerationId, loading, setLoading }: Props) => {
         modelName: room == "Pooja Room" ? "puja-lora" : "controlnetarchi",
         image: selection.selectedBaseImage,
         prompt,
+        image_resolution : room == "Pooja Room" ? "768" : "512",
         n_prompt:
           room == "Pooja Room"
             ? ""

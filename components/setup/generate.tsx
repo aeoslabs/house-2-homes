@@ -19,7 +19,7 @@ const GenerateComponent = ({ images }: Props) => {
   const [loading, setLoading] = useState<boolean>(false);
   return (
     <section className="relative h-full max-h-[calc(100vh-56px)]">
-      <div className="flex flex-row w-full max-h-[calc(100%-32px)]">
+      <div className="flex flex-row w-full h-[calc(100%-40px)]">
         <div className="p-6  overflow-y-auto max-h-screen border border-transparent border-r-gray-300">
           <div className="flex flex-col flex-1 h-full ">
             <p className={titleStyle}>Select Room</p>
@@ -43,7 +43,7 @@ const GenerateComponent = ({ images }: Props) => {
         </div>
       </div>
       <div className="w-full h-10 p-4 border-t border-t-gray-300 flex justify-center items-center">
-        <p className="text-sm">Developed by aeos</p>
+        <p className="text-sm">AI Interior Generation Tool</p>
       </div>
     </section>
   );
