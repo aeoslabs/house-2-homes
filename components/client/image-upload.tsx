@@ -85,7 +85,7 @@ const ImageUpload = ({ images }: Props) => {
           <p className="text-gray-400 text-center text-2xl">+</p>
         )}
       </div>
-      {imageList.?map(({ url, id }) => (
+      {imageList?.map(({ url, id }) => (
         <div
           key={id}
           className={clsx(
