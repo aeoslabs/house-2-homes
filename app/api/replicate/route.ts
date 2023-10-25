@@ -31,7 +31,7 @@ export async function POST(req: Request) {
   }
 
   const body = await req.json();
-  const { model, modelName, image, prompt, n_prompt } = body;
+  const { model, modelName, image, prompt, n_prompt, image_resolution } = body;
   const { data: generationsData, error: generationsError } = await supabaseAdmin
     .from('generations')
     .insert([{
@@ -63,7 +63,7 @@ export async function POST(req: Request) {
         image,
         prompt,
         n_prompt,
-        image_resolution: "768",
+        image_resolution
       },
       webhook
     );
