@@ -35,8 +35,8 @@ const ImageUpload = ({ images }: Props) => {
       if (res.status !== 200) {
         throw new Error(res.statusText);
       } else {
-        setImageList((prev) => [...prev, data]);
-        setSelection({ ...selection, selectedBaseImage: data.id });
+        setImageList((prev) => [data, ...prev]);
+        setSelection({ ...selection, selectedBaseImage: data.url });
       }
     } catch (error) {
       toast({
@@ -53,9 +53,9 @@ const ImageUpload = ({ images }: Props) => {
   return (
     <RadioGroup
       value={selection.selectedBaseImage}
-      onValueChange={(value) =>
-        setSelection({ ...selection, selectedBaseImage: `${value}` })
-      }
+      onValueChange={(value) => {
+        setSelection({ ...selection, selectedBaseImage: `${value}` });
+      }}
       className="gap-2 grid grid-cols-3 w-[25vw] min-h-[9rem] max-h-[18rem] overflow-auto"
     >
       <input
@@ -85,7 +85,7 @@ const ImageUpload = ({ images }: Props) => {
           <p className="text-gray-400 text-center text-2xl">+</p>
         )}
       </div>
-      {imageList.slice(0, 6)?.map(({ url, id }) => (
+      {imageList.?map(({ url, id }) => (
         <div
           key={id}
           className={clsx(
