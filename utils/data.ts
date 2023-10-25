@@ -174,7 +174,7 @@ export const selectionDB = [
     },
     {
         room: "Master Bedroom",
-        process:
+        prompt:
             "king-size bed, walk-in closet, vanity, amazing lighting, high resolution, high quality, 8k, UHD, unreal engine, no humans, 4000 samples, without windows.",
         themes: [
             {

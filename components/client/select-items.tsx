@@ -1,13 +1,14 @@
 "use client";
 
 import React, { useState } from "react";
-import { selectionDB, palletes } from "@/utils/data";
+import { selectionDB, palletes, themes } from "@/utils/data";
 import axios from "axios";
 import { useFormSelection } from "@/hooks/use-form-selection";
 import DropDown from "../ui/dropdown";
 import { useToast } from "../ui/use-toast";
 import CenteredSpinner from "../ui/centered-spinner";
 import { poppins } from "@/app/fonts";
+import { PaletteSVG } from "../ui/pallete-svg";
 
 type Props = {
   setGenerationId: React.Dispatch<React.SetStateAction<string | null>>;
@@ -41,16 +42,16 @@ const SelectItems = ({ setGenerationId, loading, setLoading }: Props) => {
       selectionDB.find((e) => e.room === room)?.prompt || "";
     let prompt = `${room}, ${theme} style, ${selectedPalleteColor} interior, ${selectedRoomPrompt}`;
     if (
-      room == "Pooja Room" ||
-      theme == "Indian Ancient" ||
+      room == "Pooja Room" &&
+      theme == "Indian Ancient" &&
       pallete == "Wooden Design"
     ) {
       prompt =
         "((pooja room)) design on walls of  a living room, single ((Ganesha)) idol ,wooden design style,  interior, high quality, 8k, UHD, amazing lighting, amazing quality, photoreal, hyper realistic, soft lighting, 3d render, unreal engine, octane render , no humans, 4000 samples";
     }
     if (
-      room == "Pooja Room" ||
-      theme == "Indian Ancient" ||
+      room == "Pooja Room" &&
+      theme == "Indian Ancient" &&
       pallete == "Modern Neutrals"
     ) {
       prompt =
@@ -66,8 +67,8 @@ const SelectItems = ({ setGenerationId, loading, setLoading }: Props) => {
           room == "Pooja Room"
             ? ""
             : "(curves), (uneven lines), (normal quality), (low quality), (worst quality), (ceiling artifacts), (ceiling fans), ceiling decor, humans, windows, glass doors, cropped image, out of frame, deformed hands, signatures, twisted fingers, double image, long neck, malformed hands, multiple heads, extra limb, poorly drawn hands, missing limb, disfigured, cut-off, grainy, distorted face, blurry, bad anatomy, beginner, amateur, distorted face, distorted furniture, distorted items, draft, grainy, text, watermark, ugly, signature, lowres, deformed, disfigured, cropped, jpeg artifacts, error, mutation, logo, wooden, watermark, text, logo, contact, error, blurry, cropped, username, artist name, (worst quality, low quality:1.4),monochrome",
-      };      
-      
+      };
+
       const prediction = await axios.post("/api/replicate", payload);
 
       setGenerationId(prediction.data.generationId);
@@ -92,6 +93,8 @@ const SelectItems = ({ setGenerationId, loading, setLoading }: Props) => {
       <p className={titleStyle}>Select Room Type</p>
       <DropDown
         state={room}
+        imageList={selectionDB.map((room) => room.image)}
+        selectedImg={selectionDB.find((e) => e.room === room)?.image || ""}
         setState={(newroom: string) => setRooms(newroom)}
         onClick={(themeItem: string) => {
           const roomData = selectionDB.find((e) => e.room === themeItem);
@@ -108,6 +111,14 @@ const SelectItems = ({ setGenerationId, loading, setLoading }: Props) => {
       <DropDown
         state={theme}
         setState={(newTheme: string) => setTheme(newTheme)}
+        imageList={
+          selectionDB
+            .find((e) => e.room === room)
+            ?.themes.map(
+              (theme) => themes.find((e) => e.theme === theme.name)?.image || ""
+            ) || []
+        }
+        selectedImg={themes.find((e) => e.theme === theme)?.image || ""}
         onClick={(themeItem: string) => {
           const selectedRoomData = selectionDB.find((e) => e.room === room);
           if (selectedRoomData) {
@@ -134,6 +145,22 @@ const SelectItems = ({ setGenerationId, loading, setLoading }: Props) => {
           selectionDB
             .find((e) => e.room === room)
             ?.themes.find((e) => e.name === theme)?.pallete || []
+        }
+        palleteList={selectionDB
+          .find((e) => e.room === room)
+          ?.themes.find((e) => e.name === theme)
+          ?.pallete.map((pallete, index) => (
+            <PaletteSVG
+              key={index}
+              colors={
+                palletes?.find((e) => e.name == pallete)?.palleteItem || []
+              }
+            />
+          ))}
+        pallete={
+          <PaletteSVG
+            colors={palletes.find((e) => e.name == pallete)?.palleteItem || []}
+          />
         }
       />
       <button

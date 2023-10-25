@@ -18,10 +18,10 @@ const GenerateComponent = ({ images }: Props) => {
   const [generationId, setGenerationId] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   return (
-    <section className="relative h-[100%]">
-      <div className="flex flex-row w-full h-full h-adjusted">
-        <div className="p-6  overflow-y-auto max-h-screen">
-          <div className="flex flex-col flex-1 h-full">
+    <section className="relative h-full max-h-[calc(100vh-56px)]">
+      <div className="flex flex-row w-full max-h-[calc(100%-32px)]">
+        <div className="p-6  overflow-y-auto max-h-screen border border-transparent border-r-gray-300">
+          <div className="flex flex-col flex-1 h-full ">
             <p className={titleStyle}>Select Room</p>
             <ImageUpload images={images} />
 
@@ -34,9 +34,16 @@ const GenerateComponent = ({ images }: Props) => {
         </div>
         <Separator orientation="vertical" />
 
-        <div className="flex flex-col flex-1 space-y-2 h-full">
-          <ImageDisplay setLoading={setLoading} generationId={generationId} />
+        <div className="flex flex-col flex-1 space-y-2 h-full justify-center">
+          <ImageDisplay
+            loading={loading}
+            setLoading={setLoading}
+            generationId={generationId}
+          />
         </div>
+      </div>
+      <div className="w-full h-10 p-4 border-t border-t-gray-300 flex justify-center items-center">
+        <p className="text-sm">Developed by aeos</p>
       </div>
     </section>
   );

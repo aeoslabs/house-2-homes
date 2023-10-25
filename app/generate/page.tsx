@@ -17,7 +17,7 @@ export default async function Generate() {
   const images: Image[] = await getAssetImages();
 
   return (
-    <div className="h-[100vh] flex flex-col justify-between">
+    <div className="h-[100vh] flex flex-col">
       <Navbar />
       <GenerateComponent images={images} />
     </div>

@@ -56,7 +56,7 @@ const ImageUpload = ({ images }: Props) => {
       onValueChange={(value) =>
         setSelection({ ...selection, selectedBaseImage: `${value}` })
       }
-      className="gap-2 grid grid-cols-3 w-[25vw] h-[18rem] overflow-auto"
+      className="gap-2 grid grid-cols-3 w-[25vw] min-h-[9rem] max-h-[18rem] overflow-auto"
     >
       <input
         type="file"
@@ -77,7 +77,7 @@ const ImageUpload = ({ images }: Props) => {
       />
       <div
         onClick={() => fileUploadInput?.current?.click()}
-        className="flex justify-center h-24 items-center border-2 border-dashed border-gray-400 hover:border-blue-400 transition-all cursor-pointer p-2 m-[2px]"
+        className="flex justify-center h-24 items-center border border-dashed border-gray-400 hover:border-blue-400 transition-all cursor-pointer p-2"
       >
         {loading ? (
           <div className="animate-spin h-5 w-5 border-t-2 border-blue-500 rounded-full"></div>
@@ -85,11 +85,11 @@ const ImageUpload = ({ images }: Props) => {
           <p className="text-gray-400 text-center text-2xl">+</p>
         )}
       </div>
-      {imageList?.map(({ url, id }) => (
+      {imageList.slice(0, 6)?.map(({ url, id }) => (
         <div
           key={id}
           className={clsx(
-            "flex items-center relative border-2 border-transparent  hover:scale-105 transition-all transform",
+            "flex items-center relative border-2 border-transparent hover:scale-105 transition-all transform h-24",
             url == selectedBaseImage && "border-gray-950"
           )}
         >
@@ -103,7 +103,7 @@ const ImageUpload = ({ images }: Props) => {
             src={url}
             alt={id}
             className={clsx(
-              "flex justify-center object-cover items-center w-full h-24 border-2 border-gray-200 hover:border-blue-400 transition-all",
+              "flex justify-center object-cover items-center w-full h-full border-gray-200 hover:border-blue-400 transition-all",
               url == selectedBaseImage && "border-red-950 shadow-sm"
             )}
           />
