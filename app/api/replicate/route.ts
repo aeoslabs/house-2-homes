@@ -63,7 +63,9 @@ export async function POST(req: Request) {
         image,
         prompt,
         n_prompt,
-        image_resolution
+        image_resolution: '768',
+        ddim_steps: 25,
+        strength: 0.6,
       },
       webhook
     );

@@ -65,13 +65,13 @@ function ImageDisplay(props: Props) {
         </div>
       )}
 
-      {!imageUrl && loading && (
+      {loading && (
         <div className="w-full h-full flex justify-center items-center">
           <Loader />
         </div>
       )}
 
-      {imageUrl && (
+      {imageUrl && !loading && (
         <img
           className="p-3 max-h-[80vh] max-w-[70vw]"
           src={imageUrl}
