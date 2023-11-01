@@ -53,6 +53,7 @@
     "axios": "^1.5.1",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
+    "compressorjs": "^1.2.1",
     "encoding": "^0.1.13",
     "eslint": "8.48.0",
     "eslint-config-next": "13.4.19",
