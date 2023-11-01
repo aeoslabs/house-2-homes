@@ -64,7 +64,7 @@ export async function POST(req: Request) {
         prompt,
         n_prompt,
         image_resolution: '768',
-        detect_resolution: '768',
+        detect_resolution: 768,
         ddim_steps: 20,
         strength: 0.5,
       },
