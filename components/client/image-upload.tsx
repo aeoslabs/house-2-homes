@@ -5,12 +5,10 @@ import { postClient } from "@/utils/client-helpers";
 import { fileToBase64 } from "@/utils/helpers";
 import * as React from "react";
 import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
-import { CheckCheckIcon } from "lucide-react";
 import clsx from "clsx";
 import { useFormSelection } from "@/hooks/use-form-selection";
 import Image from "next/image";
 import { Database } from "@/types/supabase";
-import Compressor from "compressorjs";
 
 type Image = Database["public"]["Tables"]["assets"]["Row"];
 
@@ -60,6 +58,7 @@ const ImageUpload = ({ images }: Props) => {
         accept="image/*"
         onChange={(e) => {
           if (e.target.files && e.target.files[0]) {
+            // Send the compressed image file to server with XMLHttpRequest.
             // Send the compressed image file to server with XMLHttpRequest.
             fileToBase64(e.target.files[0])
               .then((base64Data) => {
