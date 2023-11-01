@@ -10,6 +10,7 @@ import { useFormSelection } from "@/hooks/use-form-selection";
 import Image from "next/image";
 import { Database } from "@/types/supabase";
 import { CheckCheckIcon } from "lucide-react";
+import Compressor from "compressorjs";
 
 type Image = Database["public"]["Tables"]["assets"]["Row"];
 
@@ -59,15 +60,24 @@ const ImageUpload = ({ images }: Props) => {
         accept="image/*"
         onChange={(e) => {
           if (e.target.files && e.target.files[0]) {
-            // Send the compressed image file to server with XMLHttpRequest.
-            // Send the compressed image file to server with XMLHttpRequest.
-            fileToBase64(e.target.files[0])
-              .then((base64Data) => {
-                handleSelectImage(base64Data);
-              })
-              .catch((error) => {
-                console.error("Error converting file to Base64:", error);
-              });
+            new Compressor(e.target.files[0], {
+              quality: 0.6,
+
+              // The compression process is asynchronous,
+              // which means you have to access the `result` in the `success` hook function.
+              success(result) {
+                fileToBase64(result)
+                  .then((base64Data) => {
+                    handleSelectImage(base64Data);
+                  })
+                  .catch((error) => {
+                    console.error("Error converting file to Base64:", error);
+                  });
+              },
+              error(err) {
+                console.log(err.message);
+              },
+            });
           }
         }}
         className="hidden"
