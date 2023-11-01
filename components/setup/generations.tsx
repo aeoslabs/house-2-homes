@@ -38,6 +38,7 @@ const GenerationsComponent = (props: Props) => {
                   className="relative group overflow-hidden transform transition-transform duration-300 hover:scale-105"
                 >
                   <img
+                    alt="home"
                     className="h-[400px] object-cover w-full"
                     src={image.url || undefined}
                   />

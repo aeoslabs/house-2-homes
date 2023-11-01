@@ -35,7 +35,9 @@ const Navbar = () => {
       <ul className="flex mr-0 ml-6 items-center space-x-6">
         <li className="flex items-center space-x-1">
           <CreditIcon color="#0f172a" />
-          <span className={`${poppins.className} text-xl text-gray-900`}>{4+1}</span>
+          <span className={`${poppins.className} text-xl text-gray-900`}>
+            {4 + 1}
+          </span>
         </li>
         <li>
           <Link href="/account">

@@ -9,6 +9,7 @@ import clsx from "clsx";
 import { useFormSelection } from "@/hooks/use-form-selection";
 import Image from "next/image";
 import { Database } from "@/types/supabase";
+import { CheckCheckIcon } from "lucide-react";
 
 type Image = Database["public"]["Tables"]["assets"]["Row"];
 

@@ -39,6 +39,7 @@ function DropDown({
               pallete
             ) : (
               <img
+                alt="home"
                 src={selectedImg ?? "/base.png"}
                 className="w-10 h-10 object-cover rounded-sm"
               />
@@ -94,6 +95,7 @@ function DropDown({
                         palleteList[index]
                       ) : (
                         <img
+                          alt="home"
                           src={
                             imageList?.[index] ? imageList[index] : "/base.png"
                           }
