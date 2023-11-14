@@ -2,11 +2,11 @@ import { MyUserContextProvider } from "@/hooks/use-user";
 import SupabaseProvider from "@/hooks/use-supabase";
 import "./globals.css";
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import { FormSelectionContextProvider } from "@/hooks/use-form-selection";
 import { Toaster } from "@/components/ui/toaster";
+import { poppins } from "./fonts";
 
-const inter = Inter({ subsets: ["latin"] });
+export const dynamic = "force-dynamic";
 
 export default function RootLayout({
   children,
@@ -18,7 +18,7 @@ export default function RootLayout({
       <SupabaseProvider>
         <MyUserContextProvider>
           <FormSelectionContextProvider>
-            <body className={inter.className}>
+            <body className={`${poppins.className} bg-white`}>
               <main>{children}</main>
               <Toaster />
             </body>

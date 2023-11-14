@@ -35,7 +35,7 @@ export default function SupabaseProvider({
         router.refresh();
       } else if (event === "SIGNED_OUT") {
         setSession(null);
-        router.push("/signin");
+        router.push("/");
       }
     });
 

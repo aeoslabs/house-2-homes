@@ -35,12 +35,29 @@ export async function getUserDetails() {
   }
 }
 
-export const getImages = async () => {
+export const getAssetImages = async () => {
   const supabase = createServerSupabaseClient();
 
   const { data, error } = await supabase
     .from("assets")
     .select("*")
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    throw error;
+  }
+
+  return data ?? null;
+};
+
+export const getGenerationImages = async () => {
+  const supabase = createServerSupabaseClient();
+
+  const { data, error } = await supabase
+    .from("generations")
+    .select("*")
+    .filter("status", "eq", "succeeded")
+    .filter("url", "not.is", null)
     .order("created_at", { ascending: false });
 
   if (error) {

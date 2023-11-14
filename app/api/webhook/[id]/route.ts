@@ -4,7 +4,7 @@ import { supabaseAdmin, supabaseStorage, updateGenerationStatus } from "@/app/su
 import { v4 } from "uuid";
 
 export async function POST(req: Request, { params }: { params: { id: string } }) {
-
+    console.log('params', req.method, req.url)
     if (req.method !== "POST") {
         return sendErrorResponse("Method not allowed", 405);
     }
@@ -24,7 +24,7 @@ export async function POST(req: Request, { params }: { params: { id: string } })
     }
 
 
-    if (body.status !== 'success') {
+    if (body.status !== 'succeeded') {
         const { data: generationsData, error: generationsError } = await updateGenerationStatus(id, body.status)
 
         if (generationsError) {
@@ -91,7 +91,7 @@ export async function POST(req: Request, { params }: { params: { id: string } })
             const { data: generationsUpdateData, error: generationsUpdateError } = await supabaseAdmin
                 .from('generations')
                 .update({
-                    status: 'success',
+                    status: 'succeeded',
                     url: signedData.signedUrl,
                 })
                 .eq('id', id)

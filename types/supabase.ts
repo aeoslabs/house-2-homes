@@ -13,19 +13,19 @@ export interface Database {
         Row: {
           created_at: string
           id: string
-          url: string | null
+          url: string
           user_id: string | null
         }
         Insert: {
           created_at?: string
           id?: string
-          url?: string | null
+          url: string
           user_id?: string | null
         }
         Update: {
           created_at?: string
           id?: string
-          url?: string | null
+          url?: string
           user_id?: string | null
         }
         Relationships: [
@@ -70,9 +70,9 @@ export interface Database {
         }
         Relationships: [
           {
-            foreignKeyName: "generations_reference_img_url_fkey"
-            columns: ["reference_img_url"]
-            referencedRelation: "assets"
+            foreignKeyName: "generations_user_id_fkey"
+            columns: ["user_id"]
+            referencedRelation: "users"
             referencedColumns: ["id"]
           }
         ]

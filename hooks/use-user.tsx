@@ -4,26 +4,28 @@
 import { User } from "@supabase/supabase-js";
 import { useEffect, useState, createContext, useContext } from "react";
 import { useSupabase } from "./use-supabase";
+import { Database } from "@/types/supabase";
 
-const UserContext = createContext<any | undefined>(undefined);
+const UserContext = createContext<UserContextType | undefined>(undefined);
 
 interface Props {
   [propName: string]: any;
 }
 
-// type DBUser = Database['public']['Tables']['users']['Row'] | null;
+type DBUser = Database["public"]["Tables"]["users"]["Row"] | null;
 
-// type UserContextType = {
-//   accessToken: string | null;
-//   user: User | null;
-//   additonalUserDetails: DBUser;
-//   isLoading: boolean;
-// };
+type UserContextType = {
+  accessToken: string | null;
+  user: User | null;
+  additonalUserDetails: DBUser;
+  isLoading: boolean;
+};
 
 const MyUserContextProvider = (props: Props) => {
   const { supabase, session } = useSupabase();
   const [isLoading, setIsLoading] = useState(false);
-  const [additonalUserDetails, setAdditonalUserDetails] = useState(null);
+  const [additonalUserDetails, setAdditonalUserDetails] =
+    useState<DBUser>(null);
   const getUserDetails = () => supabase.from("users").select("*").single();
   const updateUserDetails = () => {
     getUserDetails().then(({ data, error }) => {

@@ -1,16 +1,24 @@
 import { replicatePost } from "@/app/replicate-client";
 import { supabaseAdmin } from "@/app/supabase-admin-client";
+import logger from "@/logger";
+import { RateLimitError } from "@/utils/custom-errors";
+import { qStashCall } from "@/utils/qstash";
 import { extractUserDetailsFromHeaders } from "@/utils/server-helpers";
 import { NextResponse } from "next/server";
 
-export async function POST(req: Request) {
+const {
+  VERCEL_URL,
+} = process.env;
 
-  if (req.method !== "POST") {
-    return NextResponse.json({
-      success: false,
-      message: "Method not allowed",
-    });
-  }
+export async function POST(req: Request) {
+  console.log('req', req)
+  // if (req.method !== "POST") {
+  //   return NextResponse.json({
+  //     success: false,
+  //     message: "Method not allowed",
+  //     status: 405
+  //   });
+  // }
 
   if (!req.headers) {
     throw new Error("Headers are not defined.");
@@ -23,7 +31,7 @@ export async function POST(req: Request) {
   }
 
   const body = await req.json();
-  const { model, modelName, image, prompt, n_prompt } = body;
+  const { model, modelName, image, prompt, n_prompt, image_resolution } = body;
   const { data: generationsData, error: generationsError } = await supabaseAdmin
     .from('generations')
     .insert([{
@@ -42,11 +50,12 @@ export async function POST(req: Request) {
   }
 
   const webhook = {
-    url: `https://cd75-116-75-117-27.ngrok-free.app/api/webhook/${generationsData.id}`,
+    url: `https://${VERCEL_URL}/api/webhook/${generationsData.id}`,
     events: ["completed"],
   };
 
   try {
+
     const predictionResponse = await replicatePost(
       String(model),
       modelName,
@@ -54,7 +63,10 @@ export async function POST(req: Request) {
         image,
         prompt,
         n_prompt,
-        image_resolution: "768",
+        image_resolution: '768',
+        detect_resolution: 768,
+        ddim_steps: 20,
+        strength: 0.5,
       },
       webhook
     );
@@ -64,7 +76,20 @@ export async function POST(req: Request) {
       generationId: generationsData.id,
     });
   } catch (error) {
-    console.error("Error:", error);
+    if (error instanceof RateLimitError) {
+      console.log('here')
+      logger.info(
+        error,
+        "Rate limit error"
+      );
+
+      const qstashBody = {
+        ...req.body,
+        url: `https://${VERCEL_URL}/api/replicate`
+      };
+      await qStashCall(qstashBody);
+    }
+
     return NextResponse.json({
       success: false,
       message: "Something went wrong",

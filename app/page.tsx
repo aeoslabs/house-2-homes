@@ -1,20 +1,11 @@
-import { redirect } from "next/navigation";
+import IndexComponent from "@/components/setup/page";
 import Navbar from "@/components/ui/navbar";
-import { getImages, getSession } from "./supabase-server";
-import PageComponent from "@/components/setup/page";
 
-export default async function Generate() {
-  const session = await getSession();
-
-  // if (!session) {
-  //   return redirect("/signin");
-  // }
-  const images = await getImages();
-
+export default async function Index() {
   return (
-    <>
+    <div className="h-[100vh] flex flex-col justify-between">
       <Navbar />
-      <PageComponent images={images} />
-    </>
+      <IndexComponent />
+    </div>
   );
 }

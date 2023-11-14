@@ -1,6 +1,10 @@
 import AccountComponent from "@/components/setup/account";
-import { getSession } from "../supabase-server";
+import { getGenerationImages, getSession } from "../supabase-server";
 import { redirect } from "next/navigation";
+import { Database } from "@/types/supabase";
+import Navbar from "@/components/ui/navbar";
+
+type Image = Database["public"]["Tables"]["generations"]["Row"];
 
 export default async function Account() {
   const session = await getSession();
@@ -9,5 +13,12 @@ export default async function Account() {
     return redirect("/");
   }
 
-  return <AccountComponent />;
+  const images: Image[] = await getGenerationImages();
+
+  return (
+    <div className="h-[100vh] flex flex-col justify-between">
+      <Navbar />
+      <AccountComponent images={images} />
+    </div>
+  );
 }
